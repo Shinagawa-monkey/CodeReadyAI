@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getCurrentUser } from "@/services/clerk/lib/getCurrentUser"
 import { SignInButton } from "@clerk/nextjs"
-import { BookOpenCheckIcon, Brain, BrainCircuitIcon, FileSlidersIcon, FileText, Search, SpeechIcon } from "lucide-react"
+import { BookOpenCheckIcon, Brain, GraduationCap, FileSlidersIcon, SpeechIcon } from "lucide-react"
 import Link from "next/link"
 import { Suspense } from "react"
 import { UserAvatar } from "@/features/users/components/UserAvatar"
@@ -29,7 +29,7 @@ function Navbar() {
       <div className="container">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center gap-2">
-            <BrainCircuitIcon className="size-8 text-primary" />
+            <GraduationCap className="size-8 text-primary" />
             <h1 className="text-2xl font-bold text-foreground">CodeReadyAI</h1>
           </div>
           <Suspense

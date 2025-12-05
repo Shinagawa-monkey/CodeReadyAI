@@ -2,7 +2,7 @@
 
 import {
   BookOpenIcon,
-  BrainCircuitIcon,
+  GraduationCap,
   FileSlidersIcon,
   LogOut,
   SpeechIcon,
@@ -36,7 +36,7 @@ export function Navbar({ user }: { user: { name: string; imageURL: string } }) {
     <nav className="h-header border-b">
       <div className="container flex h-full items-center justify-between">
         <Link href="/app" className="flex items-center gap-2">
-          <BrainCircuitIcon className="size-8 text-primary" />
+          <GraduationCap className="size-8 text-primary" />
           <span className="text-xl font-bold">CodeReadyAI</span>
         </Link>
 
