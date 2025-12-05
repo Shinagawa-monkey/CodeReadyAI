@@ -2,6 +2,8 @@
 
 An AI-powered interview preparation and job application platform that helps candidates practice technical interviews, get personalized resume feedback, and ace their job search.
 
+> **Live Demo:** [www.codereadyai.site](https://www.codereadyai.site)
+
 ## ✨ Features
 
 - **📝 Job Application Tracking** - Organize and manage your job applications in one place
@@ -56,8 +58,8 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/codereadyai.git
-cd codereadyai
+git clone https://github.com/Shinagawa-monkey/CodeReadyAI.git
+cd CodeReadyAI
 ```
 
 ### 2. Install Dependencies
@@ -77,9 +79,12 @@ DATABASE_URL=postgresql://user:password@ep-xxx-xxx.us-east-2.aws.neon.tech/dbnam
 # Clerk Authentication
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
+CLERK_WEBHOOK_SIGNING_SECRET=whsec_...
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/app
 NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL=/onboarding
+
+# Note: Use pk_live_... and sk_live_... keys for production
 
 # AI Services
 GEMINI_API_KEY=your_gemini_api_key
@@ -224,9 +229,14 @@ pnpm db:studio   # Open Drizzle Studio
 ### Clerk (Authentication)
 
 1. Sign up at [clerk.com](https://clerk.com)
-2. Create a new application
+2. Create a new application (choose **Development** for local testing)
 3. Copy your publishable and secret keys
-4. Set up webhooks at `/api/webhooks/clerk` for user sync
+4. **Important:** Set up webhooks for user sync:
+   - Go to **Configure → Webhooks**
+   - Add endpoint: `http://localhost:3000/api/webhooks/clerk` (dev) or `https://yourdomain.com/api/webhooks/clerk` (production)
+   - Subscribe to events: `user.created`, `user.updated`, `user.deleted`
+   - Copy the webhook signing secret to `CLERK_WEBHOOK_SIGNING_SECRET`
+5. For production: Switch to **Production** instance and use `pk_live_...` and `sk_live_...` keys
 
 ### Google AI (Gemini)
 
@@ -237,8 +247,9 @@ pnpm db:studio   # Open Drizzle Studio
 ### Hume AI (Voice Interviews)
 
 1. Sign up at [hume.ai](https://www.hume.ai)
-2. Create a voice configuration
+2. Create an EVI (Empathic Voice Interface) configuration
 3. Get your API key, secret key, and config ID
+4. Add all values to your `.env.local` file
 
 ### Arcjet (Security)
 
@@ -252,20 +263,52 @@ pnpm db:studio   # Open Drizzle Studio
 
 1. Push your code to GitHub
 2. Import your repository to [Vercel](https://vercel.com)
-3. Add all environment variables
+3. Add all environment variables in **Settings → Environment Variables**:
+   - Set Production, Preview, and Development environments appropriately
+   - Use `pk_live_...` / `sk_live_...` for Production Clerk keys
+   - Update webhook URLs to your production domain
 4. Deploy!
+
+**Important Post-Deployment Steps:**
+- Update Clerk webhook endpoint to your production URL
+- Verify Clerk domain settings match your production domain
+- Test user signup flow to ensure webhook is working
 
 ### Database Hosting
 
-For production, consider:
+The project uses Neon PostgreSQL. Other compatible options:
+- **Neon** (Recommended - Serverless PostgreSQL)
 - **Vercel Postgres**
 - **Supabase**
-- **Neon**
 - **Railway**
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Issue: "Clerk has been loaded with development keys" warning in production**
+- **Solution:** Switch to Clerk production instance and use `pk_live_...` keys
+
+**Issue: Users stuck on onboarding page**
+- **Solution:** Verify webhook is configured and `CLERK_WEBHOOK_SIGNING_SECRET` is set
+
+**Issue: Rate limit (403) errors**
+- **Solution:** Check Arcjet configuration and ensure you're not using development Clerk keys in production
+
+**Issue: Database connection errors**
+- **Solution:** Verify `DATABASE_URL` is correct and includes `?sslmode=require`
+
+For more issues, check the [Issues](https://github.com/Shinagawa-monkey/CodeReadyAI/issues) page.
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📄 License
 
@@ -278,6 +321,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Hume AI](https://hume.ai) for empathic voice technology
 - [Google](https://ai.google.dev) for Gemini AI
 - [Arcjet](https://arcjet.com) for security infrastructure
+- [Neon](https://neon.tech) for serverless PostgreSQL
+- [Shadcn](https://ui.shadcn.com) for beautiful UI components
 
 ---
 
