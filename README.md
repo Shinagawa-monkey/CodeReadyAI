@@ -48,7 +48,7 @@ Before you begin, ensure you have the following installed:
 
 - **Node.js** 20.x or higher
 - **pnpm** 8.x or higher
-- **PostgreSQL** 14.x or higher (or Docker)
+- **Neon Database** account (free tier available at [neon.tech](https://neon.tech))
 - **Git**
 
 ## 🚀 Getting Started
@@ -71,12 +71,8 @@ pnpm install
 Create a `.env` file in the root directory with the following variables:
 
 ```bash
-# Database Configuration
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=code-ready-ai
-DB_USER=postgres
-DB_PASSWORD=your_secure_password
+# Neon Database
+DATABASE_URL=postgresql://user:password@ep-xxx-xxx.us-east-2.aws.neon.tech/dbname?sslmode=require
 
 # Clerk Authentication
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
@@ -95,32 +91,20 @@ NEXT_PUBLIC_HUME_CONFIG_ID=your_hume_config_id
 ARCJET_KEY=your_arcjet_key
 ```
 
-### 4. Set Up the Database
+### 4. Set Up Neon Database
 
-#### Option A: Using Docker (Recommended)
-
-```bash
-# Start PostgreSQL with Docker
-docker run --name codereadyai-db \
-  -e POSTGRES_PASSWORD=your_secure_password \
-  -e POSTGRES_DB=code-ready-ai \
-  -p 5432:5432 \
-  -d postgres:14
-```
-
-#### Option B: Using Local PostgreSQL
-
-Ensure PostgreSQL is running and create a database:
-
-```bash
-createdb code-ready-ai
-```
+1. Create a free account at [neon.tech](https://neon.tech)
+2. Create a new project
+3. Copy your connection string from the Neon dashboard
+4. Add it to your `.env` file as `DATABASE_URL`
 
 ### 5. Push Database Schema
 
 ```bash
 pnpm db:push
 ```
+
+This will apply your Drizzle schema to your Neon database.
 
 ### 6. Start the Development Server
 

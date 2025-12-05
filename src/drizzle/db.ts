@@ -1,8 +1,7 @@
-import { env } from '@/data/env/server';
-// Make sure to install the 'pg' package 
-import { drizzle } from 'drizzle-orm/node-postgres';
-import * as schema from '@/drizzle/schema';
+import { env } from "@/data/env/server";
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import * as schema from "@/drizzle/schema";
 
-export const db = drizzle(env.DATABASE_URL, {schema});
- 
-// const result = await db.execute('select 1');
+const sql = neon(env.DATABASE_URL);
+export const db = drizzle({ client: sql, schema });

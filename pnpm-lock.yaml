@@ -26,6 +26,9 @@ importers:
       '@humeai/voice-react':
         specifier: ^0.2.9
         version: 0.2.9(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@neondatabase/serverless':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
         version: 1.2.12(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -70,7 +73,7 @@ importers:
         version: 2.1.1
       drizzle-orm:
         specifier: ^0.44.7
-        version: 0.44.7(@opentelemetry/api@1.9.0)(@types/pg@8.15.6)(pg@8.16.3)
+        version: 0.44.7(@neondatabase/serverless@1.0.2)(@opentelemetry/api@1.9.0)(@types/pg@8.15.6)(pg@8.16.3)
       hume:
         specifier: ^0.15.6
         version: 0.15.6
@@ -83,9 +86,6 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      pg:
-        specifier: ^8.16.3
-        version: 8.16.3
       react:
         specifier: 19.2.0
         version: 19.2.0
@@ -117,9 +117,6 @@ importers:
       '@types/node':
         specifier: ^20
         version: 20.19.24
-      '@types/pg':
-        specifier: ^8.15.6
-        version: 8.15.6
       '@types/react':
         specifier: ^19
         version: 19.2.2
@@ -915,6 +912,10 @@ packages:
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
 
+  '@neondatabase/serverless@1.0.2':
+    resolution: {integrity: sha512-I5sbpSIAHiB+b6UttofhrN/UJXII+4tZPAq1qugzwCwLIL8EZLV7F/JyHUrEIiGgQpEXzpnjlJ+zwcEhheGvCw==}
+    engines: {node: '>=19.0.0'}
+
   '@next/env@16.0.2-canary.10':
     resolution: {integrity: sha512-WC5QCDNLO0F+t1XYq4A4m5MCMVnBwZjaH2vXsB3cs25ufOvM07jEs39W2YXAqT7T5SWVuuAOm+e91JqKoz3KWg==}
 
@@ -1595,6 +1596,9 @@ packages:
 
   '@types/node@20.19.24':
     resolution: {integrity: sha512-FE5u0ezmi6y9OZEzlJfg37mqqf6ZDSF2V/NLjUyGrR9uTZ7Sb9F7bLNZ03S4XVUNRWGA7Ck4c1kK+YnuWjl+DA==}
+
+  '@types/node@22.19.1':
+    resolution: {integrity: sha512-LCCV0HdSZZZb34qifBsyWlUmok6W7ouER+oQIGBScS8EsZsQbrtFTUrDX4hOl+CS6p7cnNC4td+qrSVGSCTUfQ==}
 
   '@types/pg@8.15.6':
     resolution: {integrity: sha512-NoaMtzhxOrubeL/7UZuNTrejB4MPAJ0RpxZqXQf2qXuVlTPuG6Y8p4u9dKRaue4yjmC7ZhzVO2/Yyyn25znrPQ==}
@@ -4260,6 +4264,11 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
+  '@neondatabase/serverless@1.0.2':
+    dependencies:
+      '@types/node': 22.19.1
+      '@types/pg': 8.15.6
+
   '@next/env@16.0.2-canary.10': {}
 
   '@next/eslint-plugin-next@16.0.2-canary.10':
@@ -4860,6 +4869,10 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
+  '@types/node@22.19.1':
+    dependencies:
+      undici-types: 6.21.0
+
   '@types/pg@8.15.6':
     dependencies:
       '@types/node': 20.19.24
@@ -5328,8 +5341,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.44.7(@opentelemetry/api@1.9.0)(@types/pg@8.15.6)(pg@8.16.3):
+  drizzle-orm@0.44.7(@neondatabase/serverless@1.0.2)(@opentelemetry/api@1.9.0)(@types/pg@8.15.6)(pg@8.16.3):
     optionalDependencies:
+      '@neondatabase/serverless': 1.0.2
       '@opentelemetry/api': 1.9.0
       '@types/pg': 8.15.6
       pg: 8.16.3
@@ -6562,13 +6576,15 @@ snapshots:
   pg-cloudflare@1.2.7:
     optional: true
 
-  pg-connection-string@2.9.1: {}
+  pg-connection-string@2.9.1:
+    optional: true
 
   pg-int8@1.0.1: {}
 
   pg-pool@3.10.1(pg@8.16.3):
     dependencies:
       pg: 8.16.3
+    optional: true
 
   pg-protocol@1.10.3: {}
 
@@ -6589,10 +6605,12 @@ snapshots:
       pgpass: 1.0.5
     optionalDependencies:
       pg-cloudflare: 1.2.7
+    optional: true
 
   pgpass@1.0.5:
     dependencies:
       split2: 4.2.0
+    optional: true
 
   picocolors@1.1.1: {}
 
@@ -6896,7 +6914,8 @@ snapshots:
 
   space-separated-tokens@2.0.2: {}
 
-  split2@4.2.0: {}
+  split2@4.2.0:
+    optional: true
 
   stable-hash@0.0.5: {}
 
