@@ -7,7 +7,7 @@ import { relations } from "drizzle-orm";
 export const ResumeAnalysisTable = pgTable('resume_analysis', {
   id: uuid().primaryKey().defaultRandom(),
   userId: varchar().references(() => UserTable.id, { onDelete: 'cascade' }).notNull(),
-  jobInfoId: varchar().references(() => JobInfoTable.id, { onDelete: 'cascade' }).notNull(),
+  jobInfoId: uuid().references(() => JobInfoTable.id, { onDelete: 'cascade' }).notNull(),
   createdAt,
 })
 

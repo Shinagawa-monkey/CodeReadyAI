@@ -15,6 +15,13 @@
       "when": 1765199547039,
       "tag": "0001_lethal_wither",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1765200461059,
+      "tag": "0002_high_joystick",
+      "breakpoints": true
     }
   ]
 }

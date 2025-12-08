@@ -1,0 +1,1 @@
+ALTER TABLE "resume_analysis" ALTER COLUMN "jobInfoId" SET DATA TYPE uuid;
