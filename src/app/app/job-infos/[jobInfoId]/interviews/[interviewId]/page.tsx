@@ -80,7 +80,15 @@ async function Messages({ interview }: { interview: Promise<{ humeChatId: string
   if (user == null) return redirectToSignIn()
 
   const { humeChatId } = await interview
-  if (humeChatId == null) return notFound()
+
+  if (humeChatId == null) {
+    return (
+      <div className="text-center text-muted-foreground py-12">
+        <p>This interview hasn't been started yet.</p>
+        <p className="text-sm mt-2">Click "Start Interview" to begin.</p>
+      </div>
+    )
+  }
 
   const condensedMessages = condenseChatMessages(await fetchChatMessages(humeChatId))
 
