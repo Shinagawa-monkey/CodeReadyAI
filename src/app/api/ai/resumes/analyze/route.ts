@@ -3,7 +3,7 @@ import { getJobInfoIdTag } from "@/features/jobInfos/dbCache"
 import { getCurrentUser } from "@/services/clerk/lib/getCurrentUser"
 import { and, eq } from "drizzle-orm"
 import { cacheTag } from "next/dist/server/use-cache/cache-tag"
-import { JobInfoTable } from "@/drizzle/schema/jobInfo"
+import { JobInfoTable, ResumeAnalysisTable } from "@/drizzle/schema"
 import { canRunResumeAnalysis } from "@/features/resumeAnalyses/permissions"
 import { PLAN_LIMIT_MESSAGE } from "@/lib/errorToast"
 import { analyzeResumeForJob } from "@/services/ai/resumes/ai"
@@ -52,6 +52,12 @@ export async function POST(req: Request) {
   if (!(await canRunResumeAnalysis())) {
     return new Response(PLAN_LIMIT_MESSAGE, { status: 403 })
   }
+
+  // Track the resume analysis
+  await db.insert(ResumeAnalysisTable).values({
+    userId,
+    jobInfoId,
+  })
 
   const res = await analyzeResumeForJob({ resumeFile, jobInfo })
 

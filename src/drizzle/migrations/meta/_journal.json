@@ -8,6 +8,13 @@
       "when": 1762946875104,
       "tag": "0000_pretty_exiles",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1765199547039,
+      "tag": "0001_lethal_wither",
+      "breakpoints": true
     }
   ]
 }
