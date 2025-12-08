@@ -1,26 +1,45 @@
 "use client"
 
-import { getUser } from "@/features/users/actions"
+import { ensureUserExists } from "@/features/users/actions"
 import { Loader2Icon } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export function OnboardingClient({ userId }: { userId: string }) {
   const router = useRouter()
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const intervalId = setInterval(async () => {
-      const user = await getUser(userId)
-      if (user == null) return
+    let mounted = true
 
-      router.replace("/app")
-      clearInterval(intervalId)
-    }, 250)
+    async function createUser() {
+      try {
+        await ensureUserExists(userId)
+        if (mounted) {
+          router.replace("/app")
+        }
+      } catch (err) {
+        console.error("[OnboardingClient] Failed to create user:", err)
+        if (mounted) {
+          setError("Failed to create your account. Please try signing in again.")
+        }
+      }
+    }
+
+    createUser()
 
     return () => {
-      clearInterval(intervalId)
+      mounted = false
     }
-  }, [userId, router]) //will query db to check if user exists, cache untill the user is updated so it will prevent it from being called too often
+  }, [userId, router])
+
+  if (error) {
+    return (
+      <div className="text-center">
+        <p className="text-red-500">{error}</p>
+      </div>
+    )
+  }
 
   return <Loader2Icon className="animate-spin size-24" />
 }
